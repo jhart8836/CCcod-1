@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="help_now"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_help"
+        android:shortcutShortLabel="@string/shortcut_help_short"
+        android:shortcutLongLabel="@string/shortcut_help_long">
+        <intent android:action="com.anchorone.app.action.HELP_NOW" android:targetPackage="com.anchorone.app" android:targetClass="com.anchorone.app.MainActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="just_start"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_start"
+        android:shortcutShortLabel="@string/shortcut_start_short"
+        android:shortcutLongLabel="@string/shortcut_start_long">
+        <intent android:action="com.anchorone.app.action.JUST_START" android:targetPackage="com.anchorone.app" android:targetClass="com.anchorone.app.MainActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="quiet"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_quiet"
+        android:shortcutShortLabel="@string/shortcut_quiet_short"
+        android:shortcutLongLabel="@string/shortcut_quiet_long">
+        <intent android:action="com.anchorone.app.action.QUIET" android:targetPackage="com.anchorone.app" android:targetClass="com.anchorone.app.MainActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="companion"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_companion"
+        android:shortcutShortLabel="@string/shortcut_companion_short"
+        android:shortcutLongLabel="@string/shortcut_companion_long">
+        <intent android:action="com.anchorone.app.action.COMPANION" android:targetPackage="com.anchorone.app" android:targetClass="com.anchorone.app.MainActivity" />
+    </shortcut>
+</shortcuts>

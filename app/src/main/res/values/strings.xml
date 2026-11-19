@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ANCHOR ONE</string>
+    <string name="channel_guidance">Voice guidance</string>
+    <string name="notif_guidance_title">Stillpoint is guiding you</string>
+    <string name="notif_guidance_text">Voice guidance continues with the screen off.</string>
+    <string name="stop">Stop</string>
+    <string name="widget_label">I need help now</string>
+    <string name="widget_button">I NEED HELP NOW</string>
+    <string name="widget_desc">One tap opens ANCHOR ONE help.</string>
+    <string name="shortcut_help_short">Help now</string>
+    <string name="shortcut_help_long">I need help now</string>
+    <string name="shortcut_start_short">Just start</string>
+    <string name="shortcut_start_long">Just help me start</string>
+    <string name="shortcut_quiet_short">Quiet mode</string>
+    <string name="shortcut_quiet_long">Quiet mode</string>
+    <string name="shortcut_companion_short">Companion</string>
+    <string name="shortcut_companion_long">Voice companion</string>
+</resources>
