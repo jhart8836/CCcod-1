@@ -202,9 +202,10 @@ private fun SessionTopBar(s: SessionState, onExit: () -> Unit, onPause: () -> Un
             color = c.textDim,
             modifier = Modifier.weight(1f).padding(start = 4.dp),
             maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
         )
-        if (!env.minimal && s.isActivityPhase) GhostButton("Pause", onPause)
-        if (env.density == Density.NORMAL && !env.quiet) GhostButton("Voice", onCompanion)
+        if (!env.minimal && s.isActivityPhase) GhostButton("Pause", onPause, compact = true)
+        if (env.density == Density.NORMAL && !env.quiet) GhostButton("Voice", onCompanion, compact = true)
         GhostButton(
             when (env.density) {
                 Density.NORMAL -> "Simpler"
@@ -213,6 +214,7 @@ private fun SessionTopBar(s: SessionState, onExit: () -> Unit, onPause: () -> Un
             },
             onDensity,
             color = c.accent,
+            compact = true,
         )
     }
 }
@@ -291,18 +293,19 @@ private fun SessionBottomBar(s: SessionState, onDifferent: () -> Unit, onChoose:
             }
             Spacer(Modifier.height(6.dp))
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            val w = Modifier.weight(1f)
             when (env.density) {
-                Density.MINIMAL -> GhostButton("Something else", onDifferent)
+                Density.MINIMAL -> GhostButton("Something else", onDifferent, w)
                 Density.SIMPLIFIED -> {
-                    GhostButton("Something else", onDifferent)
-                    GhostButton("Move on", onMoveOn)
+                    GhostButton("Something else", onDifferent, w, compact = true)
+                    GhostButton("Move on", onMoveOn, w, compact = true)
                 }
                 Density.NORMAL -> {
-                    GhostButton("Why this?", { why = !why })
-                    GhostButton("Different", onDifferent)
-                    GhostButton("Choose", onChoose)
-                    GhostButton("Move on", onMoveOn)
+                    GhostButton("Why this?", { why = !why }, w, compact = true)
+                    GhostButton("Different", onDifferent, w, compact = true)
+                    GhostButton("Choose", onChoose, w, compact = true)
+                    GhostButton("Move on", onMoveOn, w, compact = true)
                 }
             }
         }
@@ -334,7 +337,7 @@ private fun Checkpoint(s: SessionState, vm: AppViewModel) {
             }
         }
         if (s.single && !env.minimal) {
-            GhostButton("Back to toolkit", { vm.dispatch(SessionEvent.Exit) })
+            GhostButton("Back to toolkit", { vm.finishToToolkit() })
         }
     }
 }
@@ -460,10 +463,8 @@ private fun ReEntryRamp(vm: AppViewModel, prefs: UserPrefs, onSetDown: () -> Uni
             })
             SecondaryButton("Finish", { vm.dispatch(SessionEvent.Finish) })
             if (!env.minimal) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    GhostButton("Change", { chosen = null })
-                    GhostButton("Not yet — one more activity", { vm.dispatch(SessionEvent.SomethingDifferent) })
-                }
+                GhostButton("Not yet — one more activity", { vm.dispatch(SessionEvent.SomethingDifferent) }, Modifier.align(Alignment.CenterHorizontally))
+                GhostButton("Choose a different next thing", { chosen = null }, Modifier.align(Alignment.CenterHorizontally))
                 if (!env.simplified) {
                     Text(
                         "Tip: long-press the app icon for instant shortcuts next time.",

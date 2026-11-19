@@ -27,7 +27,7 @@ import com.anchorone.app.ui.theme.AnchorTheme
 import com.anchorone.app.ui.theme.UiEnv
 
 @Composable
-fun AppRoot(vm: AppViewModel, systemAnimationsOff: Boolean, onSetDown: () -> Unit) {
+fun AppRoot(vm: AppViewModel, systemAnimationsOff: Boolean, onSetDown: () -> Unit, onSystemBars: (dark: Boolean) -> Unit) {
     val prefs by vm.prefs.collectAsStateWithLifecycle()
     val stack by vm.stack.collectAsStateWithLifecycle()
 
@@ -44,6 +44,14 @@ fun AppRoot(vm: AppViewModel, systemAnimationsOff: Boolean, onSetDown: () -> Uni
         haptics = p.effectiveHaptics,
         quiet = p.quietMode,
     )
+
+    val dark = when (p.theme) {
+        ThemeMode.DARK -> true
+        ThemeMode.LIGHT -> false
+        ThemeMode.SYSTEM -> androidx.compose.foundation.isSystemInDarkTheme()
+    }
+    // Status/navigation bar icons follow the app's theme, not just the system's.
+    androidx.compose.runtime.LaunchedEffect(dark) { onSystemBars(dark) }
 
     AnchorTheme(p.theme, env) {
         BackHandler(enabled = stack.size > 1) { vm.back() }

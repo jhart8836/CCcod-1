@@ -151,6 +151,12 @@ class AppViewModel(application: Application, private val saved: SavedStateHandle
 
     fun exitSession() = dispatch(SessionEvent.Exit)
 
+    /** Ends a toolkit-launched activity normally and returns to the toolkit. */
+    fun finishToToolkit() {
+        dispatch(SessionEvent.Finish)
+        navigate(Screen.TOOLKIT)
+    }
+
     private fun finishSession(before: SessionState, after: SessionState, exited: Boolean) {
         val now = System.currentTimeMillis()
         if (after.completed.isNotEmpty() || !exited) {
@@ -267,8 +273,15 @@ class AppViewModel(application: Application, private val saved: SavedStateHandle
     // ---------- launch intents ----------
 
     fun handleLaunch(action: LaunchAction?) {
+        if (action == null) return
+        viewModelScope.launch {
+            prefs.first { it != null }
+            performLaunch(action)
+        }
+    }
+
+    private fun performLaunch(action: LaunchAction) {
         when (action) {
-            null -> Unit
             LaunchAction.HELP_NOW -> { home(); helpNow() }
             LaunchAction.JUST_START -> startSession(Experience.JUST_START)
             LaunchAction.THOUGHT_SPIRAL -> startSession(Experience.THOUGHT_SPIRAL)

@@ -2,6 +2,7 @@ package com.anchorone.app.ui.activities
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.withInfiniteAnimationFrameNanos
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -21,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.liveRegion
@@ -83,7 +83,7 @@ fun rememberFrameLoop(running: Boolean, onFrame: (dtSeconds: Float, timeSeconds:
         var last = 0L
         var time = 0f
         while (isActive) {
-            withFrameNanos { now ->
+            withInfiniteAnimationFrameNanos { now ->
                 val dt = if (last == 0L) 1f / 60f else ((now - last) / 1_000_000_000f).coerceIn(0f, 0.05f)
                 last = now
                 time += dt

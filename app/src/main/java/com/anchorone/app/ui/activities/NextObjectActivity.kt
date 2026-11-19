@@ -121,6 +121,9 @@ fun NextObjectActivity(seed: Int, onDone: () -> Unit) {
                     rippleKey++
                     if (index + 1 >= prompts.size) finished = true else index++
                 })
+                if (index >= 3) {
+                    GhostButton("Finish here", onDone, modifier = Modifier.align(Alignment.CenterHorizontally))
+                }
                 if (!env.minimal) {
                     GhostButton("A different prompt", {
                         val cur = prompts[index]

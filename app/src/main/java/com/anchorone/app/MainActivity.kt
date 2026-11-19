@@ -18,18 +18,22 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.auto(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT),
-        )
+        applySystemBars(dark = true)
         if (savedInstanceState == null) vm.handleLaunch(parseLaunch(intent))
         setContent {
             AppRoot(
                 vm = vm,
                 systemAnimationsOff = systemAnimationsOff(),
                 onSetDown = { moveTaskToBack(true) },
+                onSystemBars = { dark -> applySystemBars(dark) },
             )
         }
+    }
+
+    private fun applySystemBars(dark: Boolean) {
+        val t = android.graphics.Color.TRANSPARENT
+        val style = if (dark) SystemBarStyle.dark(t) else SystemBarStyle.light(t, t)
+        enableEdgeToEdge(statusBarStyle = style, navigationBarStyle = style)
     }
 
     override fun onNewIntent(intent: Intent) {

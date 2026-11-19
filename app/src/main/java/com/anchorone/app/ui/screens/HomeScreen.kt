@@ -14,6 +14,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -73,8 +74,11 @@ fun HomeScreen(vm: AppViewModel, prefs: UserPrefs) {
     val canResume = resumable?.let { System.currentTimeMillis() - it.second < AppViewModel.RESUME_WINDOW_MS } == true
 
     AnchorBackground {
+        BoxWithConstraints(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
+        // Keep the orb comfortably inside short or landscape screens.
+        val maxOrb = (maxHeight * 0.34f).coerceAtLeast(140.dp)
         Column(
-            Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing).padding(horizontal = 20.dp),
+            Modifier.fillMaxSize().padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(Modifier.fillMaxWidth().padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -120,7 +124,7 @@ fun HomeScreen(vm: AppViewModel, prefs: UserPrefs) {
                     env.minimal -> 290.dp
                     env.simplified -> 270.dp
                     else -> 250.dp
-                },
+                }.coerceAtMost(maxOrb),
                 onClick = { vm.helpNow() },
             )
 
@@ -158,6 +162,7 @@ fun HomeScreen(vm: AppViewModel, prefs: UserPrefs) {
                     GhostButton(if (prefs.quietMode) "Quiet: on" else "Quiet mode", { vm.navigate(Screen.QUIET) })
                 }
             }
+        }
         }
     }
 }

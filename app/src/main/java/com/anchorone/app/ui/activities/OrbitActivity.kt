@@ -96,6 +96,7 @@ private class OrbitSim {
 
     /** Returns true when an audible/haptic "tick" should play. */
     fun step(dt: Float, reduced: Boolean, motionScale: Float, near: Float): Pair<Boolean, Boolean> {
+        if (!initialised) return false to false
         val f = finger
         if (reduced) {
             if (f != null) pos = f

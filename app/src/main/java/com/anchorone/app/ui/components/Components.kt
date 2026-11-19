@@ -223,16 +223,29 @@ fun SecondaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modi
 }
 
 @Composable
-fun GhostButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, color: Color = Anchor.colors.textDim) {
+fun GhostButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    color: Color = Anchor.colors.textDim,
+    compact: Boolean = false,
+) {
     Box(
         modifier
-            .heightIn(min = 52.dp)
+            .heightIn(min = if (compact) 48.dp else 52.dp)
             .clip(RoundedCornerShape(26.dp))
             .clickable(role = Role.Button, onClick = onClick)
-            .padding(horizontal = 18.dp, vertical = 12.dp),
+            .padding(horizontal = if (compact) 10.dp else 18.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text, style = androidx.compose.material3.MaterialTheme.typography.labelLarge, color = color)
+        Text(
+            text,
+            style = androidx.compose.material3.MaterialTheme.typography.labelLarge,
+            color = color,
+            textAlign = TextAlign.Center,
+            maxLines = if (compact) 1 else Int.MAX_VALUE,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
     }
 }
 

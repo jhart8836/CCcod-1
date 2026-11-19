@@ -82,10 +82,13 @@ fun StillpointScreen(vm: AppViewModel, prefs: UserPrefs) {
 
             Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
                 val animate = !env.reducedMotion && !ui.held
-                val t = rememberInfiniteTransition(label = "still")
-                val phase by t.animateFloat(0f, 1f, infiniteRepeatable(tween(6000, easing = LinearEasing)), label = "p")
+                val phase = if (animate) {
+                    val t = rememberInfiniteTransition(label = "still")
+                    val v by t.animateFloat(0f, 1f, infiniteRepeatable(tween(6000, easing = LinearEasing)), label = "p")
+                    v
+                } else 0.5f
                 Canvas(Modifier.size(300.dp)) {
-                    val p = if (animate) phase else 0.5f
+                    val p = phase
                     for (i in 0 until 2) {
                         val q = (p + i * 0.5f) % 1f
                         drawCircle(c.accent.copy(alpha = (if (animate) (1f - q) else 0.5f) * 0.18f), radius = size.minDimension / 2 * (0.55f + 0.4f * q), style = Stroke(1.dp.toPx()))
